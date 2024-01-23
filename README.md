@@ -1,1 +1,3 @@
-An AI chat application driven by OpenAI LLM.
+An AI chat assistant application driven by OpenAI LLM.
+
+IN CONSTRUCTION

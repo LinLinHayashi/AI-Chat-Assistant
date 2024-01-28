@@ -13,7 +13,7 @@
   justify-content: space-between;
 }
 
-button {
+.side-bar button {
   border: solid 0.5px rgba(255, 255, 255, 0.5);
   background-color: transparent;
   border-radius: 5px;
@@ -23,12 +23,12 @@ button {
   transition: all 0.5s ease;
 }
 
-button:hover {
+.side-bar button:hover {
   background-color: #444654;
   border: solid 0.5px rgba(255, 255, 255, 0.1);
 }
 
-button:active {
+.side-bar button:active {
   font-size: 1.1em;
 }
 
@@ -117,7 +117,7 @@ nav p {
   max-width: 650px;
 }
 
-input {
+.input-container input {
   font-size: 20px;
   width: 100%;
   border: none;
@@ -131,7 +131,7 @@ input {
               rgba(0, 0, 0, 0.05) 0 -3px 5px;
 }
 
-input:focus {
+.input-container input:focus {
   outline: none;
 }
 

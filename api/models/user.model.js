@@ -11,6 +11,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: false
+  },
+  verified: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 }, {timestamps: true}); // Include two extra time information: creation time of the user and update time of the user.
 

@@ -64,3 +64,10 @@
   gap: 10px;
   margin: 0 auto;
 }
+
+.error {
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0 5px;
+}

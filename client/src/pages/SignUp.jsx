@@ -1,13 +1,25 @@
 import "../styles/SignUp.css";
+import PopUp from "../components/PopUp";
+import eyeOpen from "../images/eye-open.png";
+import eyeClosed from "../images/eye-closed.png";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function SignUp() {
-  const navigate = useNavigate();
-
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const handleEye = (e) => {
+    const password = document.getElementById("password");
+    if (password.type === "password") {
+      password.type = "text";
+      e.target.src = eyeOpen;
+    } else {
+      password.type = "password";
+      e.target.src = eyeClosed;
+    }
+  };
 
   const handleChange = (e) => {
     setFormData({
@@ -32,14 +44,19 @@ export default function SignUp() {
       // If there is an error, as per the middleware for error handling we created in "index.js" in the backend.
       if (data.success === false) {
         setLoading(false);
-        setError(data.message);
+        if (data.statusCode === 500) {
+          setError(
+            "Oops! This email is already signed up. Please try another email."
+          );
+        } else {
+          setError("Oops! Something is wrong. Please try again later.");
+        }
         return; // End "handleSubmit" function as we have an error.
       }
 
       // If we are here, then we are successfully signed up.
       setLoading(false);
       setError(null);
-      navigate("/sign-in");
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.
       setLoading(false);
@@ -49,6 +66,7 @@ export default function SignUp() {
 
   return (
     <div className="sign-up">
+      <PopUp email={formData.email} />
       <h1>SIGN UP</h1>
       <form className="sign-up-input-container" onSubmit={handleSubmit}>
         <input
@@ -57,12 +75,15 @@ export default function SignUp() {
           id="email"
           onChange={handleChange}
         />
-        <input
-          type="password"
-          placeholder="password"
-          id="password"
-          onChange={handleChange}
-        />
+        <div className="password-container">
+          <input
+            type="password"
+            placeholder="password"
+            id="password"
+            onChange={handleChange}
+          />
+          <img src={eyeClosed} alt="eye-closed" id="eye" onClick={handleEye} />
+        </div>
         <button disabled={loading}>{loading ? "LOADING..." : "SIGN UP"}</button>
       </form>
       <div className="sign-in-info">

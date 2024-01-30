@@ -41,8 +41,8 @@ export const verifyEmail = async (req, res) => { // Note that this request doesn
     const token = await Token.findOne({userToken: req.params.token});
     await User.updateOne({_id: token.userId}, {$set: {verified: true}}); // "$set" specifies which properties to update.
     await Token.findByIdAndDelete(token._id);
-    res.status(201).json('Email verified.');
+    res.send('Email verified successfully. You may sign in now.');
   } catch (error) {
-    res.status(400).json('Email verification failed.');
+    res.send('Email verification failed.');
   }
 };

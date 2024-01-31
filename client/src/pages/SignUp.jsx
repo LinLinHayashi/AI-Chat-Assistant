@@ -42,7 +42,7 @@ export default function SignUp() {
     modal.close();
   };
 
-  // This function empties the input value.
+  // This function empties the input values.
   const emptyInput = () => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
@@ -55,11 +55,13 @@ export default function SignUp() {
     e.preventDefault(); // This prevents refreshing the page when the form is submitted.
     setError(null);
     try {
-      if (formData.email === "") {
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+      if (email.value === "") {
         setError("Oops! You need to enter an email.");
         return; // End "handleSubmit" function as we have an error.
       }
-      if (formData.password === "") {
+      if (password.value === "") {
         setError("Oops! You need to enter a password.");
         return; // End "handleSubmit" function as we have an error.
       }
@@ -88,8 +90,8 @@ export default function SignUp() {
       }
 
       // If we are here, then we are successfully signed up.
-      emptyInput();
       setLoading(false);
+      emptyInput();
       modalOpen();
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.

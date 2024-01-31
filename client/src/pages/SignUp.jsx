@@ -10,6 +10,7 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // This function enables hide/show password input feature.
   const handleEye = (e) => {
     const password = document.getElementById("password");
     if (password.type === "password") {
@@ -21,6 +22,7 @@ export default function SignUp() {
     }
   };
 
+  // This function handles input changes.
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -28,9 +30,20 @@ export default function SignUp() {
     });
   };
 
+  // This function handles form submission.
   const handleSubmit = async (e) => {
     e.preventDefault(); // This prevents refreshing the page when the form is submitted.
+    setError(null);
     try {
+      if (formData.email === "") {
+        setError("Oops! You need to enter an email.");
+        return; // End "handleSubmit" function as we have an error.
+      }
+      if (formData.password === "") {
+        setError("Oops! You need to enter a password.");
+        return; // End "handleSubmit" function as we have an error.
+      }
+
       setLoading(true);
       const res = await fetch("/api/auth/signup", {
         method: "POST",
@@ -46,7 +59,7 @@ export default function SignUp() {
         setLoading(false);
         if (data.statusCode === 500) {
           setError(
-            "Oops! This email is already signed up. Please try another email."
+            "Oops! This email is already used. Please try another email."
           );
         } else {
           setError("Oops! Something is wrong. Please try again later.");
@@ -56,7 +69,6 @@ export default function SignUp() {
 
       // If we are here, then we are successfully signed up.
       setLoading(false);
-      setError(null);
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.
       setLoading(false);

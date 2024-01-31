@@ -1,7 +1,7 @@
 import "../styles/SignUp.css";
-import PopUp from "../components/PopUp";
 import eyeOpen from "../images/eye-open.png";
 import eyeClosed from "../images/eye-closed.png";
+import check from "../images/check.png";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -28,6 +28,26 @@ export default function SignUp() {
       ...formData,
       [e.target.id]: e.target.value,
     });
+  };
+
+  // This function displays a modal.
+  const modalOpen = () => {
+    const modal = document.getElementById("modal");
+    modal.showModal();
+  };
+
+  // This function closes a modal.
+  const modalClose = () => {
+    const modal = document.getElementById("modal");
+    modal.close();
+  };
+
+  // This function empties the input value.
+  const emptyInput = () => {
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    email.value = "";
+    password.value = "";
   };
 
   // This function handles form submission.
@@ -68,7 +88,9 @@ export default function SignUp() {
       }
 
       // If we are here, then we are successfully signed up.
+      emptyInput();
       setLoading(false);
+      modalOpen();
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.
       setLoading(false);
@@ -78,7 +100,6 @@ export default function SignUp() {
 
   return (
     <div className="sign-up">
-      <PopUp email={formData.email} />
       <h1>SIGN UP</h1>
       <form className="sign-up-input-container" onSubmit={handleSubmit}>
         <input
@@ -96,7 +117,9 @@ export default function SignUp() {
           />
           <img src={eyeClosed} alt="eye-closed" id="eye" onClick={handleEye} />
         </div>
-        <button disabled={loading}>{loading ? "LOADING..." : "SIGN UP"}</button>
+        <button disabled={loading} type="submit">
+          {loading ? "LOADING..." : "SIGN UP"}
+        </button>
       </form>
       <div className="sign-in-info">
         <p>Have an account?</p>
@@ -105,6 +128,17 @@ export default function SignUp() {
         </Link>
       </div>
       {error && <p className="error">{error}</p>}
+      <dialog id="modal">
+        <div className="popup">
+          <img src={check} alt="Check" />
+          <h3>Thank You!</h3>
+          <p>
+            A verification email has been sent to {formData.email}. Please
+            verify your email to sign in.
+          </p>
+          <button onClick={modalClose}>OK</button>
+        </div>
+      </dialog>
     </div>
   );
 }

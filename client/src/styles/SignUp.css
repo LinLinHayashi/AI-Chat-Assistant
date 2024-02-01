@@ -83,6 +83,7 @@
 .sign-up-input-container button:disabled {
   color: black;
   background-color: white;
+  cursor: none;
 }
 
 .sign-in-info {

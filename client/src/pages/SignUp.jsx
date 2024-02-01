@@ -65,7 +65,6 @@ export default function SignUp() {
         setError("Oops! You need to enter a password.");
         return; // End "handleSubmit" function as we have an error.
       }
-
       setLoading(true);
       const res = await fetch("/api/auth/signup", {
         method: "POST",

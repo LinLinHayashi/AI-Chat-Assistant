@@ -1,6 +1,7 @@
 .sign-in {
   background-color: #343541;
   height: 95vh;
+  z-index: 0;
 }
 
 .sign-in h1 {
@@ -36,6 +37,29 @@
   outline: none;
 }
 
+.password-container {
+  position: relative;
+  width: 96%;
+  margin: 0 auto;
+}
+
+.password-container input {
+  width: 100%;
+}
+
+.password-container img {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 28%;
+  right: 5%;
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(325deg) brightness(105%) contrast(100%); /* The trick to change PNG color. */
+}
+
+.password-container img:hover {
+  cursor: pointer;
+}
+
 .sign-in-input-container button {
   border: solid 0.5px rgba(255, 255, 255, 0.5);
   background-color: transparent;
@@ -56,6 +80,11 @@
   font-size: 1.1em;
 }
 
+.sign-in-input-container button:disabled {
+  color: black;
+  background-color: white;
+}
+
 .sign-up-info {
   display: flex;
   align-items: center;
@@ -63,4 +92,71 @@
   max-width: 624px;
   gap: 10px;
   margin: 0 auto;
+}
+
+.error {
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 0 5px;
+}
+
+dialog {
+  background-color: #444654;
+  border-radius: 6px;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px,
+              rgba(0, 0, 0, 0.05) 0 -12px 30px,
+              rgba(0, 0, 0, 0.05) 0 4px 6px,
+              rgba(0, 0, 0, 0.05) 0 12px 3px,
+              rgba(0, 0, 0, 0.05) 0 -3px 5px;
+}
+
+dialog::backdrop {
+  background: linear-gradient(45deg, #fff, #343541);
+  opacity: 0.4;
+}
+
+.popup {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  text-align: center;
+}
+
+.popup img {
+  width: 20px;
+  height: 20px;
+  margin-top: 3%;
+  border-radius: 50%;
+}
+
+.popup h3 {
+  font-size: clamp(10px, 5vw, 20px); /* The trick to have a dynamic font size. */
+}
+
+.popup p {
+  font-size: clamp(7px, 2vw, 15px);
+}
+
+.popup button {
+  border: solid 0.5px rgba(255, 255, 255, 0.5);
+  background-color: transparent;
+  border-radius: 5px;
+  padding: 10px;
+  width: 96%;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+.popup button:hover {
+  background-color: #343541;
+  border: solid 0.5px rgba(255, 255, 255, 0.1);
+}
+
+.popup button:active {
+  font-size: 1.1em;
 }

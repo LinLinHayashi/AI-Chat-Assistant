@@ -81,7 +81,7 @@
 }
 
 .sign-in-input-container button:disabled {
-  color: black;
+  color: var(--button-disabled-color);
   background-color: white;
   cursor: none;
 }
@@ -98,6 +98,6 @@
 .error {
   text-align: center;
   font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--info-color);
   padding: 0 5px;
 }

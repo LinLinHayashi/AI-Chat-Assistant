@@ -1,4 +1,5 @@
 import "../styles/Header.css";
+import Toggle from "./Toggle";
 import { Link } from "react-router-dom";
 
 export default function Header() {
@@ -6,7 +7,7 @@ export default function Header() {
     <header>
       <h1>LinGPT</h1>
       <div className="right-side">
-        <img />
+        <Toggle />
         <Link to={"/sign-in"}>
           <p>Sign In</p>
         </Link>

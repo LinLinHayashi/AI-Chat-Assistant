@@ -6,7 +6,7 @@ header {
   padding-right: 50px;
   padding-left: 50px;
   height: 5vh;
-  background-color: #444654;
+  background-color: var(--header-bg-color);
   box-shadow: rgba(0, 0, 0, 0.05) 0 54px 55px,
               rgba(0, 0, 0, 0.05) 0 -12px 30px,
               rgba(0, 0, 0, 0.05) 0 4px 6px,

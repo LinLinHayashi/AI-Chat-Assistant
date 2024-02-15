@@ -1,27 +1,10 @@
-import "../styles/SignIn.css";
-import eyeOpen from "../images/eye-open.png";
-import eyeClosed from "../images/eye-closed.png";
+import "../styles/ForgotPassword.css";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
 
-export default function SignIn() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+export default function ForgotPassword() {
+  const [formData, setFormData] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const navigate = useNavigate();
-
-  // This function enables hide/show password input feature.
-  const handleEye = (e) => {
-    const password = document.getElementById("password");
-    if (password.type === "password") {
-      password.type = "text";
-      e.target.src = eyeOpen;
-    } else {
-      password.type = "password";
-      e.target.src = eyeClosed;
-    }
-  };
 
   // This function handles input changes.
   const handleChange = (e) => {
@@ -67,7 +50,6 @@ export default function SignIn() {
 
       // If we are here, then we are successfully signed up.
       setLoading(false);
-      navigate("/");
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.
       setLoading(false);
@@ -76,39 +58,19 @@ export default function SignIn() {
   };
 
   return (
-    <div className="sign-in">
-      <h1>SIGN IN</h1>
-      <form className="sign-in-input-container" onSubmit={handleSubmit}>
+    <div className="forgot-password">
+      <h3>Enter your email address</h3>
+      <form className="forgot-password-input-container" onSubmit={handleSubmit}>
         <input
           type="email"
           placeholder="email"
           id="email"
           onChange={handleChange}
         />
-        <div className="password-container">
-          <input
-            type="password"
-            placeholder="password"
-            id="password"
-            onChange={handleChange}
-          />
-          <img src={eyeClosed} alt="eye-closed" id="eye" onClick={handleEye} />
-        </div>
         <button disabled={loading} type="submit">
-          {loading ? "LOADING..." : "SIGN IN"}
+          {loading ? "LOADING..." : "SUBMIT"}
         </button>
       </form>
-      <div className="sign-up-info">
-        <div>
-          <p>Don't have an account?</p>
-          <Link to={"/sign-up"}>
-            <span>Sign Up</span>
-          </Link>
-        </div>
-        <Link to={"/forgot-password"}>
-          <span>Forgot password?</span>
-        </Link>
-      </div>
       {error && <p className="error">{error}</p>}
     </div>
   );

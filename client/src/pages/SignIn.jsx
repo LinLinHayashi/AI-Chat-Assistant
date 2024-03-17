@@ -65,7 +65,7 @@ export default function SignIn() {
         return; // End "handleSubmit" function as we have an error.
       }
 
-      // If we are here, then we are successfully signed up.
+      // If we are here, then we are successfully signed in.
       setLoading(false);
       navigate("/");
     } catch (error) {

@@ -1,6 +1,7 @@
 import User from '../models/user.model.js';
 import Token from '../models/token.model.js';
-import {sendEmail} from '../utils/verification.js';
+import ResetToken from '../models/resetToken.js';
+import {sendEmail, sendResetPasswordEmail} from '../utils/verification.js';
 import {errorHandler} from '../utils/error.js';
 import bcryptjs from 'bcryptjs';
 import crypto from 'crypto';
@@ -38,6 +39,21 @@ export const signin = async (req, res, next) => {
     // Create a cookie for the User record using the token of the name "access_token", and set it to expire in 90 days.
     res.cookie('access_token', token, {httpOnly: true, expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 90)}).status(200).json(rest); // Note that we only send "rest" through the response.
 
+  } catch(error) {
+    next(error);
+  }
+};
+
+export const forgotPassword = async (req, res, next) => {
+  const {email} = req.body;
+  try{
+    const validUser = await User.findOne({email});
+    if (!validUser) return next(errorHandler(404, 'Oops! Account not found!'));
+    const resetToken = new ResetToken({userId: validUser._id, userToken: crypto.randomBytes(16).toString('hex')});
+    await resetToken.save();
+    const link = `http://localhost:5173/reset-password/${resetToken.userToken}`;
+    await sendResetPasswordEmail(validUser.email, link);
+    res.status(201).json('Password reset token created, and password reset email sent successfully!');
   } catch(error) {
     next(error);
   }

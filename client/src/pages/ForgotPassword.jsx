@@ -38,8 +38,7 @@ export default function ForgotPassword() {
     e.preventDefault(); // This prevents refreshing the page when the form is submitted.
     setError(null);
     try {
-      const email = document.getElementById("email");
-      if (email.value === "") {
+      if (!formData.email) {
         setError("Oops! You need to enter an email.");
         return; // End "handleSubmit" function as we have an error.
       }

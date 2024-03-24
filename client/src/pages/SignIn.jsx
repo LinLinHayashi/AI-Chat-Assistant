@@ -36,13 +36,11 @@ export default function SignIn() {
     e.preventDefault(); // This prevents refreshing the page when the form is submitted.
     setError(null);
     try {
-      const email = document.getElementById("email");
-      const password = document.getElementById("password");
-      if (email.value === "") {
+      if (!formData.email) {
         setError("Oops! You need to enter an email.");
         return; // End "handleSubmit" function as we have an error.
       }
-      if (password.value === "") {
+      if (!formData.password) {
         setError("Oops! You need to enter a password.");
         return; // End "handleSubmit" function as we have an error.
       }

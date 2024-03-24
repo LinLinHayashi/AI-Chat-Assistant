@@ -57,8 +57,6 @@ export default function ResetPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault(); // This prevents refreshing the page when the form is submitted.
     setError(null);
-    console.log(enterPassword);
-    console.log(confirmPassword);
     try {
       if (!enterPassword.password) {
         setError("Oops! You need to enter a new password.");

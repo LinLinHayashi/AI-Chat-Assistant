@@ -7,6 +7,6 @@ router.post('/signup', signup);
 router.post('/signin', signin);
 router.get('/verification/:token', verifyEmail);
 router.post('/forgotpassword', forgotPassword);
-router.get('/resetpassword/:resetToken', resetPassword);
+router.post('/resetpassword/:resetToken', resetPassword);
 
 export default router;

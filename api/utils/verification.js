@@ -1,6 +1,8 @@
 import nodemailer from 'nodemailer';
 import Token from '../models/token.model.js';
 import User from '../models/user.model.js';
+import ResetToken from '../models/resetToken.js';
+import bcryptjs from 'bcryptjs';
 
 export const sendEmail =  async (email, link) => {
   try {
@@ -81,4 +83,20 @@ export const sendResetPasswordEmail =  async (email, link) => {
   }
 };
 
-export const resetPassword = async (req, res) => {};
+export const resetPassword = async (req, res) => {
+  const {password} = req.body;
+  const hashedPassword = bcryptjs.hashSync(password, 10);
+  try {
+    const resetToken = await ResetToken.findOne({userToken: req.params.resetToken});
+    if (!resetToken) return next(errorHandler(404, 'Oops! Password reset link expired!'));
+    const updateUser = await User.findByIdAndUpdate(resetToken.userId, {password: hashedPassword}, {new: true});
+    if (!updateUser) return next(errorHandler(404, 'Oops! Account not found!'));
+
+    // This is how we exclude the password from the response sent to the user for security purpose.
+    const {password, ...rest} = updateUser._doc; // "rest" stores all attributes of "validUser._doc", which is the User record's information sent through the response, except the password.
+
+    res.status(200).json(rest);
+  } catch(error) {
+    next(error);
+  }
+};

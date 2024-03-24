@@ -3,6 +3,7 @@ import Token from '../models/token.model.js';
 import User from '../models/user.model.js';
 import ResetToken from '../models/resetToken.js';
 import bcryptjs from 'bcryptjs';
+import { errorHandler } from './error.js';
 
 export const sendEmail =  async (email, link) => {
   try {
@@ -83,7 +84,7 @@ export const sendResetPasswordEmail =  async (email, link) => {
   }
 };
 
-export const resetPassword = async (req, res) => {
+export const resetPassword = async (req, res, next) => {
   const {password} = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
   try {

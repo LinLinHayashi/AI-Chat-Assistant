@@ -89,7 +89,7 @@ export default function ResetPassword() {
         return; // End "handleSubmit" function as we have an error.
       }
 
-      // If we are here, then we are successfully signed in.
+      // If we are here, then we have successfully reset the password.
       setLoading(false);
       navigate("/");
     } catch (error) {

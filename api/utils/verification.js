@@ -92,6 +92,7 @@ export const resetPassword = async (req, res, next) => {
     if (!resetToken) return next(errorHandler(404, 'Oops! Password reset link expired!'));
     const updateUser = await User.findByIdAndUpdate(resetToken.userId, {password: hashedPassword}, {new: true});
     if (!updateUser) return next(errorHandler(404, 'Oops! Account not found!'));
+    await ResetToken.findByIdAndDelete(resetToken._id);
 
     // This is how we exclude the password from the response sent to the user for security purpose.
     const {password, ...rest} = updateUser._doc; // "rest" stores all attributes of "validUser._doc", which is the User record's information sent through the response, except the password.

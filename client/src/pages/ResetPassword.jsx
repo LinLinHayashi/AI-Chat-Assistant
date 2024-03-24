@@ -3,6 +3,7 @@ import eyeOpen from "../images/eye-open.png";
 import eyeClosed from "../images/eye-closed.png";
 import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import check from "../images/check.png";
 
 export default function ResetPassword() {
   const [enterPassword, setEnterPassword] = useState("");
@@ -53,6 +54,19 @@ export default function ResetPassword() {
     });
   };
 
+  // This function displays a modal.
+  const modalOpen = () => {
+    const modal = document.getElementById("modal");
+    modal.showModal();
+  };
+
+  // This function closes a modal.
+  const modalClose = () => {
+    const modal = document.getElementById("modal");
+    modal.close();
+    navigate("/");
+  };
+
   // This function handles form submission.
   const handleSubmit = async (e) => {
     e.preventDefault(); // This prevents refreshing the page when the form is submitted.
@@ -91,7 +105,7 @@ export default function ResetPassword() {
 
       // If we are here, then we have successfully reset the password.
       setLoading(false);
-      navigate("/");
+      modalOpen();
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.
       setLoading(false);
@@ -136,6 +150,14 @@ export default function ResetPassword() {
         </button>
       </form>
       {error && <p className="error">{error}</p>}
+      <dialog id="modal">
+        <div className="popup">
+          <img src={check} alt="Check" />
+          <h3>Thank You!</h3>
+          <p>Your password has been successfully reset.</p>
+          <button onClick={modalClose}>OK</button>
+        </div>
+      </dialog>
     </div>
   );
 }

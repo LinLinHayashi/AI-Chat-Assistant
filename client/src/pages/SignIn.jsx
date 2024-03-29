@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 export default function SignIn() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState({ message: "", statusCode: "" });
 
   const navigate = useNavigate();
 
@@ -34,14 +34,20 @@ export default function SignIn() {
   // This function handles form submission.
   const handleSubmit = async (e) => {
     e.preventDefault(); // This prevents refreshing the page when the form is submitted.
-    setError(null);
+    setError({ message: "", statusCode: "" });
     try {
       if (!formData.email) {
-        setError("Oops! You need to enter an email.");
+        setError({
+          message: "Oops! You need to enter an email.",
+          statusCode: "",
+        });
         return; // End "handleSubmit" function as we have an error.
       }
       if (!formData.password) {
-        setError("Oops! You need to enter a password.");
+        setError({
+          message: "Oops! You need to enter a password.",
+          statusCode: "",
+        });
         return; // End "handleSubmit" function as we have an error.
       }
       setLoading(true);
@@ -56,9 +62,12 @@ export default function SignIn() {
       if (data.success === false) {
         setLoading(false);
         if (data.statusCode === 500) {
-          setError("Oops! Something is wrong. Please try again later.");
+          setError({
+            message: "Oops! Something is wrong. Please try again later.",
+            statusCode: 500,
+          });
         } else {
-          setError(data.message);
+          setError({ message: data.message, statusCode: data.statusCode });
         }
         return; // End "handleSubmit" function as we have an error.
       }
@@ -69,9 +78,11 @@ export default function SignIn() {
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.
       setLoading(false);
-      setError(error.message);
+      setError({ message: error.message, statusCode: error.statusCode });
     }
   };
+
+  const resendEmail = () => {};
 
   return (
     <div className="sign-in">
@@ -107,7 +118,12 @@ export default function SignIn() {
           <span>Forgot password?</span>
         </Link>
       </div>
-      {error && <p className="error">{error}</p>}
+      {error && <p className="error">{error.message}</p>}
+      {error && error.statusCode === 403 && (
+        <button className="resend-email" onClick={resendEmail}>
+          Resend verification email?
+        </button>
+      )}
     </div>
   );
 }

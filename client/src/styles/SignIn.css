@@ -106,3 +106,13 @@
   color: var(--info-color);
   padding: 0 5px;
 }
+
+.resend-email {
+  display: block;
+  margin: auto;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  color: var(--info-color);
+}

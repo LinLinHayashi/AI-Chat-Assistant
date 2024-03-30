@@ -58,3 +58,16 @@ export const forgotPassword = async (req, res, next) => {
     next(error);
   }
 };
+
+export const resendEmail = async (req, res, next) => {
+  const {email} = req.body;
+  try {
+    const validUser = await User.findOne({email});
+    const token = await Token.findOne({userId: validUser._id});
+    const link = `http://localhost:8000/api/auth/verification/${token.userToken}`;
+    await sendEmail(validUser.email, link);
+    res.status(201).json('Verification email sent successfully!');
+  } catch (error) {
+    next(error);
+  }
+};

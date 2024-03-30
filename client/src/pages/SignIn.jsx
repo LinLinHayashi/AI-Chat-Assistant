@@ -1,6 +1,7 @@
 import "../styles/SignIn.css";
 import eyeOpen from "../images/eye-open.png";
 import eyeClosed from "../images/eye-closed.png";
+import check from "../images/check.png";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
@@ -29,6 +30,28 @@ export default function SignIn() {
       ...formData,
       [e.target.id]: e.target.value,
     });
+  };
+
+  // This function displays a modal.
+  const modalOpen = () => {
+    const modal = document.getElementById("modal");
+    modal.showModal();
+  };
+
+  // This function closes a modal, empties the input values, and reset "formData".
+  const modalClose = () => {
+    emptyInput();
+    setFormData({ email: "", password: "" });
+    const modal = document.getElementById("modal");
+    modal.close();
+  };
+
+  // This function empties the input values. Note that it won't reset "formData" assoicated with the input values.
+  const emptyInput = () => {
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    email.value = "";
+    password.value = "";
   };
 
   // This function handles form submission.
@@ -82,7 +105,39 @@ export default function SignIn() {
     }
   };
 
-  const resendEmail = () => {};
+  const resendEmail = async (e) => {
+    e.preventDefault(); // This prevents refreshing the page when the form is submitted.
+    setError({ message: "", statusCode: "" });
+    try {
+      setLoading(true);
+      const res = await fetch("/api/auth/resendemail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        setLoading(false);
+        if (data.statusCode === 500) {
+          setError({
+            message: "Oops! Something is wrong. Please try again later.",
+            statusCode: 500,
+          });
+        } else {
+          setError({ message: data.message, statusCode: data.statusCode });
+        }
+        return; // End "handleSubmit" function as we have an error.
+      }
+      setLoading(false);
+      modalOpen();
+    } catch (error) {
+      // We use "try/catch" here to handle errors NOT defined in the backend.
+      setLoading(false);
+      setError({ message: error.message, statusCode: error.statusCode });
+    }
+  };
 
   return (
     <div className="sign-in">
@@ -124,6 +179,17 @@ export default function SignIn() {
           Resend verification email?
         </button>
       )}
+      <dialog id="modal">
+        <div className="popup">
+          <img src={check} alt="Check" />
+          <h3>Thank You!</h3>
+          <p>
+            A verification email has been sent to {formData.email}. Please
+            verify your email to sign in.
+          </p>
+          <button onClick={modalClose}>OK</button>
+        </div>
+      </dialog>
     </div>
   );
 }

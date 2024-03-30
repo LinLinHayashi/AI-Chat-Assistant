@@ -36,13 +36,15 @@ export default function SignUp() {
     modal.showModal();
   };
 
-  // This function closes a modal.
+  // This function closes a modal, empties the input values, and reset "formData".
   const modalClose = () => {
+    emptyInput();
+    setFormData({ email: "", password: "" });
     const modal = document.getElementById("modal");
     modal.close();
   };
 
-  // This function empties the input values.
+  // This function empties the input values. Note that it won't reset "formData" assoicated with the input values.
   const emptyInput = () => {
     const email = document.getElementById("email");
     const password = document.getElementById("password");
@@ -88,7 +90,6 @@ export default function SignUp() {
 
       // If we are here, then we are successfully signed up.
       setLoading(false);
-      emptyInput();
       modalOpen();
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.

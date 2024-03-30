@@ -39,7 +39,7 @@ export const sendEmail =  async (email, link) => {
   }
 };
 
-export const verifyEmail = async (req, res) => { // Note that this request doesn't have a body.
+export const verifyEmail = async (req, res) => { // Note that this request doesn't have a body because it's a GET request.
   try {
     const token = await Token.findOne({userToken: req.params.token});
     await User.updateOne({_id: token.userId}, {$set: {verified: true}}); // "$set" specifies which properties to update.

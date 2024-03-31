@@ -49,8 +49,11 @@ export const forgotPassword = async (req, res, next) => {
   try{
     const validUser = await User.findOne({email});
     if (!validUser) return next(errorHandler(404, 'Oops! Account not found!'));
-    const resetToken = new ResetToken({userId: validUser._id, userToken: crypto.randomBytes(16).toString('hex')});
-    await resetToken.save();
+    let resetToken = await ResetToken.findOne({userId: validUser._id});
+    if (!resetToken) {
+      resetToken = new ResetToken({userId: validUser._id, userToken: crypto.randomBytes(16).toString('hex')});
+      await resetToken.save();
+    }
     const link = `http://localhost:5173/reset-password/${resetToken.userToken}`;
     await sendResetPasswordEmail(validUser.email, link);
     res.status(201).json('Password reset token created, and password reset email sent successfully!');

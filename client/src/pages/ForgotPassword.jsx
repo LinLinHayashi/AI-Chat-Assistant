@@ -21,13 +21,15 @@ export default function ForgotPassword() {
     modal.showModal();
   };
 
-  // This function closes a modal.
+  // This function closes a modal, empties the input value, and reset "formData".
   const modalClose = () => {
+    emptyInput();
+    setFormData("");
     const modal = document.getElementById("modal");
     modal.close();
   };
 
-  // This function empties the input values.
+  // This function empties the input value. Note that it won't reset "formData" assoicated with the input value.
   const emptyInput = () => {
     const email = document.getElementById("email");
     email.value = "";
@@ -63,7 +65,6 @@ export default function ForgotPassword() {
 
       // If we are here, then we are successfully signed up.
       setLoading(false);
-      emptyInput();
       modalOpen();
     } catch (error) {
       // We use "try/catch" here to handle errors NOT defined in the backend.
